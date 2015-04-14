@@ -29,9 +29,10 @@
 #import "SARate.h"
 #import "SARateViewController.h"
 
-@interface SARate()
+@interface SARate() <SARateDelegate>
 
 @property (nonatomic, strong) SARateViewController *mySARateViewController;
+@property (nonatomic, weak) id<SARateDelegate> sarateDelegate;
 
 @end
 
@@ -63,6 +64,7 @@
     _mySARateViewController.emailErrorAlertText = self.emailErrorAlertText;
     _mySARateViewController.okText = self.okText;
     _mySARateViewController.minAppStoreRaiting = self.minAppStoreRaiting;
+    _mySARateViewController.delegate = self;
     
     [_mySARateViewController.view setFrame:[[UIScreen mainScreen] bounds]];
     
@@ -239,6 +241,25 @@
     return _minAppStoreRaiting;
 }
 
+- (void) didSelectStarRating:(NSUInteger)starCount{
+    if ([self.sarateDelegate respondsToSelector:@selector(didSelectStarRating:)]) {
+        [self.sarateDelegate didSelectStarRating:starCount];
+    }
+}
 
+- (id<SARateDelegate>)sarateDelegate{
+    if (_sarateDelegate == nil)
+    {
+        
+#if TARGET_OS_IPHONE
+#define APP_CLASS UIApplication
+#else
+#define APP_CLASS NSApplication
+#endif
+        
+        _sarateDelegate = (id<SARateDelegate>)[[APP_CLASS sharedApplication] delegate];
+    }
+    return _sarateDelegate;
+}
 
 @end

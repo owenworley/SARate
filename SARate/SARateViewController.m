@@ -196,12 +196,17 @@
                                                        delegate:self
                                               cancelButtonTitle:_appstoreRaitingCancel
                                               otherButtonTitles:_appstoreRaitingButton, nil];
+        if ([self.delegate respondsToSelector:@selector(didSelectStarRating:)]) {
+            [self.delegate didSelectStarRating:_mark];
+        }
         [alert show];
         return;
         
         
     }
-    
+    if ([self.delegate respondsToSelector:@selector(didSelectStarRating:)]) {
+        [self.delegate didSelectStarRating:_mark];
+    }
     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:_disadvantagesAlertTitle message:_disadvantagesAlertMessage delegate:nil cancelButtonTitle:_okText otherButtonTitles:nil];
     [alertView show];
     [self sendMail];

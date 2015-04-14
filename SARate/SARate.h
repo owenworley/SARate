@@ -27,6 +27,13 @@
 
 #import "iRate.h"
 
+@protocol SARateDelegate <NSObject>
+
+@optional
+- (void) didSelectStarRating:(NSUInteger)starCount;
+
+@end
+
 @interface SARate : iRate
 
 + (SARate *)sharedInstance;
@@ -50,5 +57,4 @@
 @property (nonatomic, strong) NSString *emailErrorAlertText;
 @property (nonatomic, strong) NSString *okText;
 @property (nonatomic, assign) int minAppStoreRaiting;
-
 @end
